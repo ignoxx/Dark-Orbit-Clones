@@ -1,16 +1,12 @@
 # Orbit Legacy v8.14.1 - [[Preview]](https://www.youtube.com/watch?v=sGQEYC9nDEM)
-#### See previous version
+#### Previous version
 [Orbit Legacy v8.13.1](https://github.com/ignaskavaliauskas/Dark-Orbit-Clones/tree/master/Orbit%20Legacy%208.13.1) - [[Preview]](https://www.youtube.com/watch?v=7h94URC3_uo)
+
 # Description
+Final version, this project is abandoned and won't be updated anymore. I don't recommend using it as a base for your game since the code, the game engine and all used librarys are outdated, but I won't hinder you by doing that ;)
+It may be interesting to use it for educational purpose for checking out the server structure and everything else behind the scences! (Even if it was poorly coded, it managed to hold up to 100 players in a playable state)
 
-
-This game was upgraded from v8.9 to v8.13 by me(IGnoXX), you can do whatever you want with this game also host it public ;)
-Game was made by Kkarnage and upgraded and updated by IGnoXX
-
-Now you can continue this Game and modify it by your own or just take a look into the codes ;)
-
-
-If you have questions or if you find any bug, you can easy contact me via Skype(inc.ignoxx) or leave a reply on the Forum
+I've took over the development for this game after it got discontinued by the real developer in ~2012, so this repository is mainly used as a reference for myself.
 
 # Requirments
 * Game Maker 8.0 Pro / 8.1 Pro
@@ -24,7 +20,7 @@ If you have questions or if you find any bug, you can easy contact me via Skype(
 
 ### Current Client
 ![Image of Client](https://github.com/ignaskavaliauskas/Dark-Orbit-Clones/blob/master/Orbit%20Legacy%208.14.1/Images/Client1.png)
-### Game before I continued it!
+### Previous Client before I took over the development
 ![Image of Old client](https://github.com/ignaskavaliauskas/Dark-Orbit-Clones/blob/master/Orbit%20Legacy%208.14.1/Images/prev%20version.jpg)
 ### Server
 ![Image of Server](https://github.com/ignaskavaliauskas/Dark-Orbit-Clones/blob/master/Orbit%20Legacy%208.14.1/Images/Server.png)
