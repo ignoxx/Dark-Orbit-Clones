@@ -22,7 +22,7 @@ Some Facts:
 - You can edit IP and/or Port in the Settings.ini
 - You dont need to create any folder or File, the server/client will do it automaticly after the first start.
 - Start first the Server and then the Client.
-- Dont forget to Donate some  € for me!!! :*
+- Dont forget to Donate some  â‚¬ for me!!! :*
 
 
 Have Fun!
