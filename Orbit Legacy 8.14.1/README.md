@@ -1,7 +1,4 @@
 # Orbit Legacy v8.14.1 - [[Preview]](https://www.youtube.com/watch?v=sGQEYC9nDEM)
-#### Previous version
-[Orbit Legacy v8.13.1](https://github.com/ignaskavaliauskas/Dark-Orbit-Clones/tree/master/Orbit%20Legacy%208.13.1) - [[Preview]](https://www.youtube.com/watch?v=7h94URC3_uo)
-
 # Description
 Final version, this project is abandoned and won't be updated anymore. I don't recommend using it as a base for your game since the code, the game engine and all used librarys are outdated, but I won't hinder you by doing that ;)
 It may be interesting to use it for educational purpose for checking out the server structure and everything else behind the scences! (Even if it was poorly coded, it managed to hold up to 100 players in a playable state)
