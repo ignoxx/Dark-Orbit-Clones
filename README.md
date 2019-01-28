@@ -1,5 +1,5 @@
 # Dark-Orbit-Clones
-This repository contains my relevant projects which I've created during my exploration of programming, back when I was 15 years old.
+This repository contains my relevant projects which I've created during my exploration of programming, back when I was 15+ years old.
 
 I've experimented a lot with the source files and learned a lot during the time. 
 # The most relevant things I've learned
