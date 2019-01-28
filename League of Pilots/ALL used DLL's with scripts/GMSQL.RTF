@@ -1,0 +1,1087 @@
+{\rtf1\ansi\ansicpg1252\deff0\deflang1033\deflangfe1033{\fonttbl{\f0\froman\fprq2\fcharset0 Times New Roman;}{\f1\fmodern\fprq1\fcharset0 Courier New;}{\f2\fswiss\fprq2\fcharset0 Tahoma;}{\f3\fmodern Courier New;}{\f4\fmodern\fcharset0 Courier New;}{\f5\fswiss\fprq2\fcharset0 Verdana;}{\f6\froman\fcharset0 Times New Roman;}{\f7\fnil\fcharset2 Symbol;}}
+{\colortbl ;\red0\green0\blue0;}
+{\stylesheet{ Normal;}{\s1 heading 1;}{\s2 heading 2;}}
+\viewkind4\uc1\pard\qc\lang2057\b\f0\fs44 GMSQL\par
+\pard\keepn\s1\qc\fs32 The MySQL Database Bridge\b0\par
+\b Version 1.0\par
+\pard\qc\par
+\pard\keepn\s2\fs24 Introduction\par
+\pard\b0\fs20\par
+GMSQL is a bridge for MySQL database connectivity. Through a set of script functions and DLLs it enables you to connect with a MySQL server and run full queries on its databases. Based on the privileges set at the database, anything from inserting data until creating and dropping databases is within the possibilities. Using SELECT queries GMSQL also allows you to retrieve multiple result fields and records, easy accessible in an array-style manner. You can even retrieve binary data from the database and save it on the local hard drive.\par
+\par
+The aim of GMSQL is to allow you to create online games using a MySQL database server. The MySQL database server is an excellent solution for using online databases because it is free and it has proven to be extremely stable and powerful, with the ability to handle databases with massive size.\par
+\par
+A few examples of the possibilities with GMSQL are: \par
+\par
+\pard{\pntext\f7\'B7\tab}{\*\pn\pnlvlblt\pnf7\pnindent360{\pntxtb\'B7}}\fi-360\li360\tx360 Simple game play counters or other game statistics: count how many people played your game online\par
+{\pntext\f7\'B7\tab}Online highscore lists: insert new scores and highscores and get the top rankings directly in your game without the need to call PHP pages\par
+{\pntext\f7\'B7\tab}Storage of player statistics and characteristics such as names, logon credentials and stats\par
+{\pntext\f7\'B7\tab}Retrieving binary files from the database and storing them locally on the local hard drive \par
+{\pntext\f7\'B7\tab}Creating MMORPGs\par
+\pard\par
+Note that GMSQL is NOT of use to you if you only wish to create a game that uses a local database that needs to be spread with your game.\par
+\par
+\pard\keepn\b\fs24 Requirements\b0\fs20\par
+\pard\par
+To create Game Maker applications that can access a MySQL database server, you need the following components:\par
+\par
+\pard{\pntext\f7\'B7\tab}{\*\pn\pnlvlblt\pnf7\pnindent360{\pntxtb\'B7}}\fi-360\li360\tx360 A registered copy of Game Maker 5.0 or higher\par
+{\pntext\f7\'B7\tab}Access and permissions to a running MySQL database server\par
+{\pntext\f7\'B7\tab}The GMSQL package\par
+\pard\tx360\par
+The GMSQL package contains the following files:\par
+\par
+\pard{\pntext\f7\'B7\tab}{\*\pn\pnlvlblt\pnf7\pnindent360{\pntxtb\'B7}}\fi-360\li360\tx360\f1 LIBMYSQL.DLL\f2 :\f0  the interface for MySQL client applications\par
+\f1{\pntext\f7\'B7\tab}GMSQL.DLL\f0 : the bridge towards \f1 LIBMYSQL.DLL\f0\par
+\f1{\pntext\f7\'B7\tab}GMSQL.GML\f0 : the Game Maker library file file containing DLL declarations and function calls for \f1 GMSQL.DLL\f0\par
+\f1{\pntext\f7\'B7\tab}GMSQL.RTF\f0 : the manual you are reading now\par
+\f1{\pntext\f7\'B7\tab}GMSQLCONSOLE.GMD\f0 : a console test-application to use with the DLLs\par
+\pard\par
+The DLLs and the GML file can be used in Game Maker versions 5.0 and 5.1, but the console was written in 5.2.\par
+\par
+There are also some requirements for you as a programmer. If you fail to meet any of these you should not try using GMSQL. Database-aimed games are a complicated matter. You need:\par
+\par
+\pard{\pntext\f7\'B7\tab}{\*\pn\pnlvlblt\pnf7\pnindent360{\pntxtb\'B7}}\fi-360\li360\tx360 Solid understanding of setting up and maintaining a MySQL database\par
+{\pntext\f7\'B7\tab}Knowledge of creating and using MySQL queries\par
+{\pntext\f7\'B7\tab}Decent programming experience in GML\par
+\pard\keepn\b\fs24\par
+Using The GMSQL Console\b0\par
+\fs20\par
+The GMSQL Console is a simple test application that allows you to run queries on a (online) database. It can also display results for select-type queries. It does not serve as a typical example of how Game Maker games using GMSQL should be written - normally, you would not allow a game player full controls over MySQL queries. This tool allows you to test out queries and their syntax that you wish to use in your game. You can also use it to check the privileges of a specific user name.\par
+\par
+Open \f1 GMSQLCONSOLE.GMD\f0  in Game Maker and run it. The application will ask for a host first. Specify a TCP/IP address or URL for a MySQL server. Type \f1 127.0.0.1\f0  or \f1 Localhost\f0  if the MySQL server runs on the local machine. Next, type a user name that has privileges on (one of the) databases. Afterwards, type a password for the user.\par
+\par
+If you are connecting remotely, allow for several seconds to connect. A console will pop up. The top line describes server location, server MySQL version, client MySQL version and the connection thread. On the bottom line you can type your queries. Try \f1 show databases\f0  to get a list of databases and \f1 use database [name]\f0  to connect to a particular database.\par
+\par
+At any time, type \f1 /ping\f0  to ping the server or to reconnect when the connection was lost and type \f1 /quit\f0  to terminate the application. Note that the application does not quit using the escape key.\par
+\b\fs24\par
+How To Use GMSQL in your games\b0\fs20\par
+\pard\par
+There are basically four steps to in using GMSQL:\par
+\par
+\pard{\pntext\f7\'B7\tab}{\*\pn\pnlvlblt\pnf7\pnindent360{\pntxtb\'B7}}\fi-360\li360\tx360 Initialising GMSQL\par
+{\pntext\f7\'B7\tab}Connecting to the online MySQL database server\par
+{\pntext\f7\'B7\tab}Perform any necessary queries and optionally retrieving the data\par
+{\pntext\f7\'B7\tab}Closing the connection\par
+\pard\tx360\par
+\pard Because online applications are susceptible to disconnections, it is always wise to check the status of the last executed command. Most commands of GMSQL return a result that tells you whether the function failed (\i 0\b\i0  \b0 or \i false\i0 ) or succeeded (\i 1\i0 or \i true\i0 ). It is good practice to check the status of the last executed command whenever possible, and to continue or exit based on that result. Through the use of two other commands which will be described later, you can retrieve the error code and error message that describe the last encountered problem.\par
+\par
+All GMSQL commands require the '(' and ')' parenthesis, even when they do not use any parameters.\par
+\par
+\b Initialising GMSQL\b0\par
+\par
+Before using \i any\i0  GMSQL command, you need to initialise GMSQL with \f1 gmsql_init()\f0 .\par
+\par
+\f1 if !gmsql_init()\par
+  \{\par
+   show_message(gmsql_errormessage());\par
+   exit;\par
+  \}\f0\par
+\par
+This code initialises GMSQL on the local computer. If it fails - the result of gmsql_init is \i not\i0  true - it displays the last GMSQL error message in a message box and exits the current script. The only reasons for this function to fail would be insufficient memory on the local computer, or missing DLL files.\par
+\par
+\b Connecting to a MySQL server\b0\par
+\par
+Next, a connection needs to be established:\par
+\par
+\f1 if !gmsql_connect('www.myserver.com','gameuser','gamepass','gamedb')\par
+  \{\par
+   show_message(gmsql_errormessage());\par
+   exit;\par
+  \}\par
+\f0\par
+This script connects to a MySQL server running on a host located at \f1 www.myserver.com\f0 , using 'gameuser' as the username and 'gamepass' as the password. It attempts to switch to a database called 'gamedb'. Note that you can use both URLs and TCP/IP addresses as the host location. You can also specify a port to connect to, if the MySQL server is configured to use a communication port that is different from the default:\par
+\par
+\f1 if !gmsql_connect('216.38.142.53:4436','gameuser','gamepass','gamedb')\par
+  ...\par
+\f0\par
+Depending on the server configuration, the server location, the use of firewalls and the connection type (modem, broadband et cetera), the initial connection may take up several seconds.\par
+\par
+\b Sending queries\b0\par
+\par
+After being connected to a database, GMSQL is ready to send queries to the server. There are two types of queries you can perform in a MySQL query: \i non-select queries\b\i0  \b0 and \i select queries\i0 . \par
+\par
+\i Non-select queries\i0  perform a specific action such as inserting a record in a database, creating a table or switching databases. A typical example of a non-select query would be the \f1 use\f0  or \f1 insert\f0  query. A non-select query does not return a result, so you do not need to retrieve the result after a query.\par
+\par
+\i Select queries\i0 , if any rows are found that match the query, return one or more rows and fields from one or more tables. This can be called the \i query result\i0  or \i result table\i0 , and can be regarded as a custom-made array. The \f1 select\f0  query command is the most typical example of a select query, but for example the query \f1 show databases\f0  returns a result too. This information can be retrieved from the server.\par
+\par
+In using the \f1 gmsql_query(query)\f0  command, there is no difference between a non-select query and a select query. Below is an example of a select query.\par
+\par
+\f1 if !gmsql_query('select * from names')\par
+  \{\par
+   show_message(gmsql_errormessage());\par
+   exit;\par
+  \}\par
+\f0\par
+This script tells the MySQL server to return all rows and fields of the \f1 names\f0  table, or report the error if the query failed. At this stage, the result of the query - a result table that contains the fields and rows of the \f1 names\f0  table - is not yet transferred to the local computer.\par
+\par
+\b Storing the results\b0\par
+\par
+There are two methods to get the data to the local computer: \i store result \i0 and \i use result\i0 .\par
+\par
+The \i Store result\i0  command transfers \i the complete data block \i0 to the client in one go. The advantage is that all results in the table can be referred to directly afterwards, and that only one single communication is needed between the server and the client. Afterwards you can address all the values in the result table very quickly as if you are addressing a two-dimensional array, and because you have retrieved the entire result, you know exactly how many rows the result table has. The disadvantage is that a result table may be rather big, and that the time to transfer the data may temporarily pause your game execution.\par
+\par
+The \i Use result\i0  command tells the server to transfer \i only one row of data\i0  at a time. After this command you need to retrieve several rows one by one, preferably in a loop in your game. This method allows for result processing during retrieval, and requires less memory to be used locally. There are a few disadvantages: \i All\i0  rows must be retrieved, you do not know how many rows there are until you have retrieved the last row, and you can handle only one row of data at the time: you can not address the entire result table as a two-dimensional array, you will only have a single-dimension array representing the last retrieved row.\par
+\par
+Typically, in practice you will most probably use the \i store result\i0  command more often than the \i use result\i0 .\par
+\par
+\b An example of using the \f1 gmsql_storeresult\f0  command and retrieving values\par
+\b0\par
+After a select query, the command \f1 gmsql_storeresult()\f0 tells GMSQL to immediately load the entire result table:\par
+\par
+\f1 if !gmsql_storeresult()\par
+  \{\par
+   show_message(gmsql_errormessage());\par
+   exit;\par
+  \}\par
+\f0\par
+The result of the last executed query, if any, now remains in GMSQL memory. Let's assume that the last query retrieved all rows of the fields \f1 firstname\f0  and \f1 lastname\f0  from the \f1 names\f0  database. The query decides the structure of the retrieved result table. This is important to know, because for example above query \f1 select * from names\f0  returns an exact copy of the table \f1 names\f0  in the database: if \f1 firstname\f0  is the first field and \f1 lastname\f0  the second, the result array will have two colums of which the first will contain the first names and the second the last names. Vertically, the retrieved rows are stored. Note that the result array does not contain the field names.\par
+\par
+Let's display all the found values on the screen. Note that this script is provided as an example: based on the size of the font or the rows in the database, it may run off the screen.\par
+\par
+\cf1\b\f1 for\b0  (i=0; i<gmsql_numrows(); i+=1)\par
+   draw_text(0,i*16,gmsql_getvaluexy(0,i)+' '+gmsql_getvaluexy(1,i));\par
+\cf0\f0\par
+The function \cf1\f1 gmsql_numrows()\cf0\f0  contains the total amount of rows in the result table. We use this variable to create a loop and display all rows. The function \cf1\f1 gmsql_getvaluexy(col,row)\cf0\f0  retrieves the value stored at column \cf1\f1 col\cf0\f0  and row \cf1\f1 row\cf0\f0 . For example, \cf1\f1 gmsql_getvaluexy(1,5)\cf0\f0  will get the sixth value of the second row in the result array. Note that columns and rows start counting at 0.\par
+\par
+\i Important note:\i0  a MySQL database contains many different data types. Game Maker has only very few data types. To cater for this difference, \i all values in a result array are returned as strings.\i0  You may need to convert a string result to a numerical value using the \cf1\f1 real\cf0\f0  routine provided in Game Maker. Likewise, for \f1 insert\f0  type queries, you need to convert numbers to strings first. Even binary data fields are returned as strings, but they are truncated at non-ASCII characters. \par
+\par
+\b An example of using the \f1 gmsql_useresult\f0  command and retrieving values\b0\par
+\par
+After a select query, the command \f1 gmsql_useresult()\f0 tells GMSQL that records will be retrieved row by row.\par
+\par
+\f1 if !gmsql_useresult()\par
+  \{\par
+   show_message(gmsql_errormessage());\par
+   exit;\par
+  \}\par
+\f0\par
+With the \i use result\i0  method, you need to fetch a new row by calling the command \cf1\f1 gmsql_fetchrow()\cf0\f0 . Afterwards, you can address any of the fields in the last loaded row using \f1 gmsql_getvalue(col)\f0 .\par
+\par
+\f1 while gmsql_fetchrow()=true\par
+   show_message(gmsql_getvalue(0)+' '+gmsql_getvalue(1));\par
+\par
+\f0 As at this point the amount of rows are not known until the last row is retrieved, so you need to get rows one by one until the \f1 gmsql_fetchrow()\f0  returns false. Once again, note that all values are returned as strings.\par
+\par
+\i Note\b\i0 :\b0  you must retrieve \i all\i0  rows from a result table before issuing a new query, even though you do not need all results.\par
+\par
+\b Closing the connection\b0\par
+\par
+After successfully using queries to insert or retrieve the database data, you should close the connection and free memory by calling the command\par
+\par
+\f1 gmsql_close();\f0\par
+\par
+\b\fs24\par
+Example 1: Registering A Player For An Online Game\b0\fs20\par
+\par
+This example shows how a new user can be registered for an online game. It will ask the player for a name and a password and it will check if a player by that name exists. If the user name does not exist, it is added to the database.\par
+\par
+\b Setting up your MySQL database tables\b0\par
+\par
+Your game should use a database on your MySQL database server. All actions within the game are best done within one database, to avoid switching between databases during game play. Be aware that database, table and field names are case-sensitive. Let's assume we use a database called 'swordquest' with a table called 'players' containing the fields 'name' and 'password'. You could give the 'name' field a primary key, but since we check this in the game this will not really be necessary. The server is located at 'www.swordquest.com' with server port 1493.\par
+\par
+\b Setting up the player's logon credentials\b0\par
+\par
+To enable a client to connect to the database server over the Internet, you should allow players to connect from \i any\i0  kind of location. But you do not need to give a player an actual username and password - instead you should use a generic username and password used by \i all\i0  games. This will allow any game application to log on to the database and check player name and password with the list in the database. So the playername and password are not used at all as \i real\i0  logon credentials - they just make the game decide whether they can continue or not.\par
+\par
+Let's say we register a typical player username 'swordquest_player@%' with password 'a4jgnm32k'. With this, MySQL username registration tells the MySQL database server that a user called 'swordquest_player' will be able to connect from \i any\i0  location on the Internet with the password 'a4jgnm32k'. The password should be as cryptic as possible, to avoid hackers to address the database with a MySQL console application such as provided with this package.\par
+\par
+\b Logging on the player for an online game\b0\par
+\par
+The next scripts are fairly basic and do not offer an attractive interface as they serve as an example only.\par
+\par
+To log on to the game, the player should enter his/her player name and password. Next, the GMSQL server is connected and the provided name is used in a search query. There are three possible scenarios: the player doesn't exist, the player logs on with the wrong password or the player has provided a correct name and password. Only in the last case should he be allowed to continue. The variable \f1 global.logon\f0  can be checked, later in the game, whether the player was logged on successfully. For the query we assume that there can be only one player with the given name in the table.\par
+\par
+-----------------------------------------------------------------------------------------------------------------------------\par
+\cf1\lang1033\f3 global.logon=false;\par
+\par
+global.playername=get_string('Enter your playername:','');\par
+if playername='' exit;\par
+\par
+global.password=get_string('Enter your password:','');\par
+if password=''\par
+  \{\par
+   show_message('Not a valid password!')\par
+   exit;\par
+  \}\par
+\par
+if !gmsql_init()\par
+  \{\par
+   show_message('Could not initiate GMSQL.');\par
+   exit;\par
+  \}\par
+\par
+if !gmsql_connect('\lang2057 www.swordquest.com:1493','swordquest_player','a4jgnm32k','swordquest')\lang1033\par
+  \{\par
+   show_message('Failed to connect to database\f4  server\f3 .');\par
+   exit;\par
+  \}\par
+  \par
+if !gmsql_query('select password from players where name="'+global.playername+'"')\par
+  \{\par
+   show_message('Failed to query database.');\par
+   exit;\par
+  \}\par
+\par
+if !gmsql_storeresult()\par
+  \{\par
+   show_message('Failed to retrieve database results.');\par
+   exit;\par
+  \}\par
+  \par
+if gmsql_numrows()=0\par
+  \{\par
+   show_message('Player '+global.playername+' does not exist!');\par
+   exit;\par
+  \}\par
+  \par
+if gmsql_getvaluexy(0,0)<>global.password\par
+  \{\par
+   show_message('Incorrect password!');\par
+   exit;\par
+  \}\par
+\par
+\f4 show_message('Player '+global.playername+' logged on.');\f3\par
+\par
+global.logon=true;\par
+\cf0\lang2057\f0 -----------------------------------------------------------------------------------------------------------------------------\par
+\lang1033\f3\par
+\lang2057\f0 If the player was successfully logged on, the variable \cf1\lang1033\f3 global.logon\cf0\lang2057\f0  will be true.\par
+\par
+There are a few things worthy of note here:\par
+\par
+\pard{\pntext\f7\'B7\tab}{\*\pn\pnlvlblt\pnf7\pnindent360{\pntxtb\'B7}}\fi-360\li360\tx360 When using the \f1 where\f0  keyword in a \f1 select\f0  query, the given comparison string is not checked for the case. This is useful to check the username, but we may want to check the password with Game Maker string comparison routines for the correct case.\par
+{\pntext\f7\'B7\tab}We make the query return the password only. We do not need to retrieve the player name since we have that information already.\par
+{\pntext\f7\'B7\tab}The result table contains only one field with one value, so we should be able to retrieve our information with \cf1\lang1033\f3 gmsql_getvaluexy(0,0)\cf0\lang2057\f0 .\par
+\pard\tx360\par
+Another important thing in MySQL queries is that they require the double quotes ( " ) as delimiters for strings. To make the concatenation of a query string easier, you should use the single quotes ( ' ) when building a query text in Game Maker.\par
+\pard\par
+\b Registering a new player name\b0\par
+\par
+In another part of our game we wish to enable a new player to register a new player name and password with our database server. Using the same database and tables, the example below provides a solution on how to do this. Again we use the \cf1\lang1033\f3 global.logon\cf0\lang2057\f0  variable, because a registered player might as well be logged on automatically. We also connect to the server here as the connection might not have been initialised yet. In your game, you may find it more useful to only once initiate GMSQL and build up the connection.\par
+\par
+-----------------------------------------------------------------------------------------------------------------------------\par
+\cf1\lang1033\f3 global.logon=false;\par
+\par
+global.playername=get_string('Enter the name you would like to use:','');\par
+if playername='' exit;\par
+\par
+global.password=get_string('Enter your case-sensitive password:','');\par
+if password=''\par
+  \{\par
+   show_message('Not a valid password!')\par
+   exit;\par
+  \}\par
+\par
+if !gmsql_init()\par
+  \{\par
+   show_message('Could not initiate GMSQL.');\par
+   exit;\par
+  \}\par
+\par
+if !gmsql_connect('\lang2057 www.swordquest.com:1493','swordquest_player','a4jgnm32k','swordquest')\lang1033\par
+  \{\par
+   show_message('Failed to connect to database\f4  server\f3 .');\par
+   exit;\par
+  \}\par
+  \par
+if !gmsql_query('select name from players where name="'+global.playername+'"')\par
+  \{\par
+   show_message('Failed to query database.');\par
+   exit;\par
+  \}\par
+\par
+if !gmsql_storeresult()\par
+  \{\par
+   show_message('Failed to retrieve database results.');\par
+   exit;\par
+  \}\par
+  \par
+if gmsql_numrows()>0\par
+  \{\par
+   show_message('The name '+global.playername+' already exists!');\par
+   exit;\par
+  \}\par
+  \par
+if gmsql_query('insert into players values ("'+global.playername+'","'+global.password+'")');\par
+  \{\par
+   show_message('Failed to register new player.');\par
+   exit;\par
+  \}\par
+\par
+show_message('\f4 P\f3 layer \f4 '+global.username+' \f3 registered.');\par
+    \par
+global.logon=true;\par
+\cf0\lang2057\f0 -----------------------------------------------------------------------------------------------------------------------------\lang1033\f3\par
+\lang2057\f0\par
+Again there are a few things worthy of note here.\par
+\par
+\pard{\pntext\f7\'B7\tab}{\*\pn\pnlvlblt\pnf7\pnindent360{\pntxtb\'B7}}\fi-360\li360\tx360 This rather simple script only checks whether or not the player name string is empty. However, a \i good\i0  script would check if the player name contains any characters at all, if the characters are valid for use and if the name is not too long or too short.\par
+{\pntext\f7\'B7\tab}The query to check for the player name could have been done with a \f1 count\f0  too, but in both cases information needs to be retrieved from the database so the method doesn't really matter.\par
+{\pntext\f7\'B7\tab}The query is very straightforward and assumes the table is only 2 fields wide, containing name and password in the order in which they are presented in the query. If there would be more fields you would need to specify what value goes into which field.\par
+\pard\par
+For a real RPG much more information will be stored for a player than just a name and password, and for convenience they would best all be kept in the same table and loaded as required. \par
+\par
+\par
+\b\fs24 Example 2: Retrieving Binary Files From A Database Table\b0\fs20\par
+\par
+This example shows how a game can retrieve an arbitrary number of binary files from the database. We will check whether the files exist locally to avoid large result tables and long download times. The image names are also stored in the database table so that the game doesn't need to know these on forehand.\par
+\par
+\b Setting up your MySQL database tables\b0\par
+\par
+A table called 'images' in your database swordquest contains a field called 'filename', containing the filename of the image, and a field 'image' that contains the image data itself. The filename field should contain the primary key to the table, so that searches will be performed a lot quicker. The 'filename' field does not contain survey directories, we assume that the files are in the current working directory.\par
+\par
+\b Setting up the player's logon credentials\b0\par
+\par
+These will be the same as in Example 1 as described above.\par
+\par
+\b Retrieving the images from the database\b0\par
+\par
+Retrieving images will be done in two steps: first, we will retrieve all image names and check the availability of those images on the local drive. For those files that are not there yet, we build up a list and use it for the second query that retrieves all data. Here is a script that performs these actions.\par
+\par
+-----------------------------------------------------------------------------------------------------------------------------\par
+\cf1\lang1033\f3 if !gmsql_init()\par
+  \{\par
+   show_message('Could not initiate GMSQL.');\par
+   exit;\par
+  \}\par
+\par
+if !gmsql_connect('\lang2057 www.swordquest.com:1493','swordquest_player','a4jgnm32k','swordquest')\lang1033\par
+  \{\par
+   show_message('Failed to connect to database server.');\par
+   exit;\par
+  \}\par
+  \par
+if !gmsql_query('select filename from images')\par
+  \{\par
+   show_message('Failed to query database.');\par
+   exit;\par
+  \}\par
+\par
+if !gmsql_storeresult()\par
+  \{\par
+   show_message('Failed to retrieve database results.');\par
+   exit;\par
+  \}\par
+  \par
+counter=0;\par
+\par
+for (i=0; i<gmsql_numrows(); i+=1)\par
+   if ! file_exists(gmsql_getvalue(0,i))\par
+     \{\par
+      getfile[i]=gmsql_getvalue(0,i);\par
+      counter+=1;\par
+     \}\par
+\par
+\f4 if counter=0\par
+  \{\par
+   show_message('No images to retrieve.');\par
+   exit;\par
+  \}\f3\par
+\par
+for (i=0; i<counter; i+=1)\par
+   \{\par
+    if !gmsql_query('select image from images where filename="'+getfile[i]+'"')\par
+      \{\par
+       show_message('Failed to query database.');\par
+       exit;\par
+      \}\par
+    if !gmsql_storeresult()\par
+      \{\par
+       show_message('Failed to retrieve database results.');\par
+       exit;\par
+      \}\par
+    gmsql_savedataxy(0,0,getfile[i]);\par
+   \}    \par
+\cf0\lang2057\f0 -----------------------------------------------------------------------------------------------------------------------------\lang1033\f3\par
+\lang2057\f0\par
+Technically, this could also have been done with a single query statement which searched for all the filenames in the array. Building the string would however be more difficult, and retrieving the results would have had to be done using the \cf1\lang1033\f3 gmsql_\f4 use\f3 result(\f4 )\cf0\lang2057\f0  method to avoid a transaction that memory-consuming. Another method would be to send the current image names to the MySQL database server and let the server create a table that contains the names that need to be retrieved.\par
+\par
+The script could be extended to check for file creation dates of images and subsequently also load never versions of the files.\par
+\par
+\b\fs24 Example 3: Maintaining Highscore Lists\b0\fs20\par
+\par
+In this example, we have a game called Asteroids in which we let the program store a new player name and his / her highscore in a MySQL database. Then, a query is sent to select the twenty best scores. We need only twenty scores because that will be the limit displayed by our game. Of course the database will contain more scores, but we do not need to retrieve them all. The ranks should be ordered with the highest score on top. If two players happen to have the same score, the player that first entered his score should rank above the second player. All score sorting should be done by the database server.\par
+\par
+\b Setting up your MySQL database tables\b0\par
+\par
+The MySQL database server is hosted at IP addresss \f1 235.184.128.111\f0 . As you might have more than one arcade game with highscores, it would be convenient to have a database called 'scores' with a table for each game. The table bears the game's name. The table has three fields: 'playername', 'score' and 'timestamp', a timestamp field. The timestamp is very handy because it makes the server automatically register the time and date when the score was inserted into the database using the \f1 insert\f0  query. This time and date can be used by the query later to sort the database scores.\par
+\par
+\b Setting up the player's logon credentials\b0\par
+\par
+The game should have a user name and password to log on to it's own table only. We create a user called 'asteroids_player' with a wildcard as the client address and give it the cryptic password  'jeff3kj52'. To avoid security breaches, this particular user can do nothing more than query the table 'asteroids'.\par
+\par
+\b Inserting the player name and score and retrieving the top 20 list\b0\par
+\par
+For this script, the variable \f1 global.score\f0  contains the player's score as set by the game.\par
+\par
+-----------------------------------------------------------------------------------------------------------------------------\par
+\par
+\cf1\lang1033\f3 global.playername=get_string('Congratulations! Enter your name:','');\par
+\par
+if global.playername='' exit;\par
+\par
+if !gmsql_init()\par
+  \{\par
+   show_message('Could not initiate GMSQL.');\par
+   exit;\par
+  \}\par
+\par
+if !gmsql_connect('\lang2057 235.184.128.111','asteroids_player','jeff3kj52','scores')\lang1033\par
+  \{\par
+   show_message('Failed to connect to database server.');\par
+   exit;\par
+  \}\par
+  \par
+if !gmsql_query('insert into asteroids (name,score) values ("'+global.playername+'",'+string(global.score)+')');\par
+  \{\par
+   show_message('Failed to insert score in database.');\par
+   exit;\par
+  \}\par
+\par
+if !gmsql_query('select name,score from asteroids order by score desc, timestamp limit 20')\par
+  \{\par
+   show_message('Failed to query scores in database.');\par
+   exit;\par
+  \}\par
+  \par
+if !gmsql_storeresult()\par
+  \{\par
+   show_message('Failed to retrieve score table.');\par
+   exit;\par
+  \}\par
+  \par
+for (i=0; i<gmsql_numrows(); i+=1)\par
+   draw_text(40,i*16,string(i+1)+': '+gmsql_getvaluexy(0,i)+' - '+gmsql_getvaluexy(1,i));\par
+\par
+screen_refresh();\par
+keyboard_wait();\par
+\cf0\lang2057\f0 -----------------------------------------------------------------------------------------------------------------------------\par
+\par
+Once again, the script is rather basic. It would be better to check whether the player name contains spaces only and whether the name is not too long. The length limit could also be set on the playername field of the scores table, but then the player would not be warned for an excessive name length.\par
+\par
+Note that the query to retrieve the highscore table only selects name and score for the result table. It sorts the score descending as the highest score needs to appear at the top of the list, but it sorts the datetime stamp ascending to make sure the oldest scores - should two players have the same score - appear first.\par
+\par
+This script displays the retrieved score list immediately by drawing it and waiting for a keypress for convenience, but usually the results would be displayed in a different room - if the game succeeded in retrieving the query at all.\par
+\par
+\b\fs24 COMMAND LIST\b0\fs20\par
+\par
+This is an alphabetical list of all GMSQL commands in the file \f1 GMSQL.GML\f0 .\par
+\par
+-----------------------------------------------------------------------------------------------------------------------------\par
+\f1 gmsql_affectedrows()\f0\par
+-----------------------------------------------------------------------------------------------------------------------------\par
+\par
+Returns the number of rows affected by the last query. \par
+\par
+Example:\par
+\par
+\f1 show_message('Rows affected by last query: '+string(gmsql_affectedrows());\f0\par
+\par
+\par
+-----------------------------------------------------------------------------------------------------------------------------\par
+\f1 gmsql_changeuser(username,password,database)\f0\par
+-----------------------------------------------------------------------------------------------------------------------------\par
+\par
+\f1 username:\f0\par
+\par
+The new user name to log on with.\par
+\par
+\f1 password:\f0\par
+\par
+The password corresponding to the new username.\par
+\par
+\f1 database:\f0\par
+\par
+Name of the database to connect to. Pass an empty string if you wish to connect to a database at a later stage.\par
+\par
+Example:\par
+\par
+\f1 gmsql_changeuser('player','secret','asteroids');\f0\par
+\par
+Logs on to the database 'asteroids' as user 'player' with password 'secret'.\par
+\par
+Returns 1 if successful, 0 if failed.\par
+\par
+\par
+-----------------------------------------------------------------------------------------------------------------------------\par
+\f1 gmsql_close()\f0\par
+-----------------------------------------------------------------------------------------------------------------------------\par
+\par
+Closes the connection to the MySQL database server and cleans memory.\par
+\par
+Example:\par
+\par
+\f1 gmsql_close();\f0\par
+\par
+Always returns 1.\par
+\par
+\par
+-----------------------------------------------------------------------------------------------------------------------------\par
+\f1 gmsql_connect(host[:port],username,password,database)\f0\par
+-----------------------------------------------------------------------------------------------------------------------------\par
+\par
+Connects to the given database server location with the specified credentials.\par
+\par
+\f1 host[:port]:\f0\par
+\par
+Specifies the location of the MySQL database server. You can either use a TCP/IP address or an URL. Optionally, a port number can be specified behind a colon.\par
+\par
+\f1 username:\f0\par
+\par
+The user name to log on with.\par
+\par
+\f1 password:\f0\par
+\par
+The password corresponding to the username.\par
+\par
+\f1 database:\f0\par
+\par
+Name of the database to connect to. Pass an empty string if you wish to connect to a database at a later stage.\par
+\par
+Example:\par
+\par
+\f1 if !gmsql_connect('215.241.221.124:2031','player','secret','asteroids') show_message(gmsql_errormessage());\par
+\par
+\f0 Logs on to the server located at 215.241.221.124 with port number 2031 as user 'player' with password 'secret', connecting to database 'asteroids'.\par
+\par
+Returns 1 if connection was successful and 0 when failed. Check \f1 gmsql_errorcode()\f0  and \f1 gmsql_errormessage()\f0  for more information on failure. \par
+\par
+\par
+-----------------------------------------------------------------------------------------------------------------------------\par
+\f1 gmsql_dataseek(row)\f0\par
+-----------------------------------------------------------------------------------------------------------------------------\par
+\par
+Jumps to the given row in a result table.\par
+\par
+\f1 row:\f0\par
+\par
+Row number to jump to. Indexing starts at zero.\par
+\par
+Example:\par
+\par
+\f1 gmsql_dataseek(1);\f0\par
+\par
+Jumps to the second row in the result table.\par
+\par
+Returns 1 if succesful or 0 if failed.\par
+\par
+This function can only be used for select-type queries that have used \f1 gmsql_storeresult()\f0  to store the data.\par
+\par
+After calling this function, you can use \f1 GMSQLGetValue(col)\f0 and \f1 GMSQLSaveData(col)\f0 instead of \f1 GMSQLGetValueXY(col,row)\f0 and \f1 GMSQLSaveData(col,row)\f0 to retrieve the rows' contents.\par
+\par
+\par
+-----------------------------------------------------------------------------------------------------------------------------\par
+\f1 gmsql_errorcode()\f0\par
+-----------------------------------------------------------------------------------------------------------------------------\par
+\par
+Returns the error message number, if any, of the last executed GMSQL command.\par
+\par
+Example:\par
+\par
+\f1 show_message(string(gmsql_errorcode()));\par
+\f0\par
+\b Note:\b0  The majority of the error messages codes come from the MYSQL library. However error codes in the range of 10001 and upwards are errors intercepted by GMSQL. For a full list of those errors, see \f1 gmsql_errormessage()\f0 . For a full list of MYSQL error messages, see the MYSQL documentation.\par
+\par
+\par
+-----------------------------------------------------------------------------------------------------------------------------\par
+\f1 gmsql_errormessage()\f0\par
+-----------------------------------------------------------------------------------------------------------------------------\par
+\par
+Returns the error message text, if any, of the last executed GMSQL command.\par
+\par
+Example:\par
+\par
+\f1 show_message(gmsql_errormessage());\par
+\f0\par
+\b Note:\b0  The majority of the error messages come from the MYSQL library. However error codes in the range of 10001 and upwards are errors intercepted by GMSQL. Below is a list of all GMSQL error messages, their causes and possible solutions.\par
+\par
+\f1 10001 - GMSQL already initialised\f5\par
+\f0 You have calle \f1 gmsql_init()\f0 twice.\par
+\par
+\f1 10002 - GMSQL initialisation failed (not enough memory)\f0\par
+The call to \f1 gmsql_init()\f0  failed. This is a critical error, no GMSQL functionality available.\par
+\par
+\f1 10003 - GMSQL not initialised\f0\par
+You have called any of the GMSQL functions without initialising GMSQL. Call \f1 gmsql_init()\f0  first.\par
+\par
+\f1 10004 - No query result available\f0\par
+The last query did not return a result, the query result has not been stored yet by using \f1 gmsql_storeresult()\f0  or \f1 gmsql_useresult()\f0  or no query was executed.\par
+\par
+\f1 10005 - Cannot index vertically on non-stored table\f0\par
+You tried to use \f1 gmsql_dataseek(row)\f0 , \f1 gmsql_getvaluexy(col,row)\f0  or \f1 gmsql_savedataxy(col,row)\f0  on a table stored with \f1 gmsql_userresult()\f0 . Use \f1 gmsql_storeresult()\f0  instead, or use the appropriate commands.\par
+\par
+\f1 10006 - Negative array index\f0\par
+You tried to index using \f1 gmsql_getvalue(col)\f0 , \f1 gmsql_getvaluexy(col,row)\f0 , \f1 gmsql_savedata(col)\f0  or \f1 gmsql_savedata(col,row)\f0 with negative values for \f1 row\f0  and \f1 col\f0 . Only values 0 and upwards are allowed.\par
+\par
+\f1 10007 - Array index out of bounds\par
+\f0 You tried indexing using \f1 gmsql_getvalue(col)\f0 , \f1 gmsql_getvaluexy(col,row)\f0 , \f1 gmsql_savedata(col)\f0  or \f1 gmsql_savedata(col,row)\f0 with values for \f1 col\f0  and \f1 row\f0  that are beyond the limits of the result table.\par
+\par
+\f1 10008 - No more rows\par
+\f0 You have already retrieved the last row with \f1 gmsql_fetchrow()\f0 .\par
+\par
+\f1 10101 - Disk write error (possible cause: disk full)\f0\par
+GMSQL could not write the output file using \f1 gmsql_savedata(col)\f0  or \f1 gmsql_savedataxy(col,row)\f0 .\par
+\par
+\f1 10102 - File could not be opened (incorrect file name or path)\f0\par
+GMSQL could not write the output file in \f1 gmsql_savedata(col)\f0  or \f1 gmsql_savedataxy(col,row)\f0 , possibly due to an incorrect file name or path.\par
+\par
+\f1 10103 - File could not be opened for writing (incorrect file name or path)\f0\par
+GMSQL could not continue writing to the output file in \f1 gmsql_savedata(col)\f0  or \f1 gmsql_savedataxy(col,row)\f0 .\par
+\par
+\par
+-----------------------------------------------------------------------------------------------------------------------------\par
+\f1 gmsql_fetchrow()\f0\par
+-----------------------------------------------------------------------------------------------------------------------------\par
+\par
+Retrieves the next row from the result table. \par
+\par
+Example:\par
+\par
+\f1 if !gmsql_fetchrow() show_message('No more rows in query result.');\f0\par
+\par
+Returns 1 if successful, 0 if failed.\par
+\par
+This command should can only be called after \f1 gmsql_useresult()\f0 . Use \f1 gmsql_getvalue(col)\f0  and \f1 gmsql_savedata(row)\f0  to retrieve the row's data.\par
+\par
+-----------------------------------------------------------------------------------------------------------------------------\par
+\f1 gmsql_getclientinfo()\f0\par
+-----------------------------------------------------------------------------------------------------------------------------\par
+\par
+Returns the software version of the MYSQL API used by the client.\par
+\par
+Example:\par
+\par
+\f1 show_message('Client software version: '+gmsql_getclientinfo())\f0\par
+\par
+\par
+-----------------------------------------------------------------------------------------------------------------------------\par
+\f1 gmsql_getfieldname(col)\f0\par
+-----------------------------------------------------------------------------------------------------------------------------\par
+\par
+Retrieves the field name of the selected column.\par
+\par
+\f1 col:\f0\par
+\par
+Field number to retrieve, a value of 0 and upwards.\par
+\par
+Example:\par
+\par
+\f1 show_message('The name of the first field is '+gmsql_getfieldname(0));\f0\par
+\par
+Returns the name of the field or an empty string if failed. Note that this command only works after using a select query and calling \f1 gmsql_storeresult()\f0  or \f1 gmsql_useresult()\f0 .\par
+\par
+-----------------------------------------------------------------------------------------------------------------------------\par
+\f1 gmsql_gethostinfo()\f0\par
+-----------------------------------------------------------------------------------------------------------------------------\par
+\par
+Returns the address and connection type of the currently connected MySQL database server.\par
+\par
+Example:\par
+\par
+\f1 show_message('Host location: '+gmsql_gethostinfo());\par
+\f0\par
+\par
+-----------------------------------------------------------------------------------------------------------------------------\par
+\f1 gmsql_getserverinfo()\f0\par
+-----------------------------------------------------------------------------------------------------------------------------\par
+\par
+Returns the software version of the currently connected MySQL database server.\par
+\par
+Example:\par
+\par
+\f1 show_message('Host software version: '+gmsql_getserverinfo())\f0\par
+\par
+-----------------------------------------------------------------------------------------------------------------------------\par
+\f1 gmsql_getversion(index)\f0\par
+-----------------------------------------------------------------------------------------------------------------------------\par
+\par
+Returns the version information of GMSQL.\par
+\par
+\f1 index:\f0\par
+\par
+A number between 1 and 5, returning:\par
+\par
+1: The filename\par
+2: The version number\par
+3: The author name\par
+4: The build date\par
+5: The company name\par
+\par
+Example:\par
+\par
+\f1 show_message('GMSQL was written by '+gmsql_getversion(3))\f0\par
+\par
+-----------------------------------------------------------------------------------------------------------------------------\par
+\f1 gmsql_getvalue(col)\f0\par
+-----------------------------------------------------------------------------------------------------------------------------\par
+\par
+Retrieves the value of the specified column as a string.\par
+\par
+\f1 col:\f0\par
+\par
+Column number of the field to retrieve, a value of 0 and upwards.\par
+\par
+Example:\par
+\par
+\f1 show_message('The first field of the current row contains this data: '+gmsql_getvalue(0));\f0\par
+\par
+Returns the fields' contents or an empty string if no value was found.\par
+\par
+This command is typically used in combination with \f1 gmsql_useresult()\f0  and \f1 gmsql_fetchrow()\f0  but can also be used with \f1 gmsql_storeresult()\f0  and \f1 gmsql_dataseek(row)\f0 .\par
+\par
+-----------------------------------------------------------------------------------------------------------------------------\par
+\f1 gmsql_getvaluexy(col,row)\f0\par
+-----------------------------------------------------------------------------------------------------------------------------\par
+\par
+Retrieves the value of the specified column and row as a string.\par
+\par
+\f1 col:\f0\par
+\par
+Column number of the field to retrieve, a value of 0 and upwards.\par
+\par
+\f1 row:\f0\par
+\par
+Row number of the field to retrieve, a value of 0 and upwards.\par
+\par
+Example:\par
+\par
+\f1 show_message('The value of the 6th column on the 4th row is '+gmsql_getvaluexy(5,3));\f0\par
+\par
+Returns the fields' contents or an empty string if no value was found.\par
+\par
+This command can be used in combination with \f1 gmsql_storeresult()\f0  only.\par
+\par
+-----------------------------------------------------------------------------------------------------------------------------\par
+\f1 gmsql_info()\f0\par
+-----------------------------------------------------------------------------------------------------------------------------\par
+\par
+Returns server information regarding the last query.\par
+\par
+Example:\par
+\par
+\f1 show_message('Query informtion: '+gmsql_info());\f0\par
+\par
+-----------------------------------------------------------------------------------------------------------------------------\par
+\f1 gmsql_init()\f0\par
+-----------------------------------------------------------------------------------------------------------------------------\par
+\par
+Initialises GMSQL.\par
+\par
+Example:\par
+\par
+\f1 if !gmsql_init show_message('GMSQL initalisation failed.');\f0\par
+\par
+Returns 1 if successful or 0 if failed. \par
+\par
+This command \i must\i0  be called before calling any other GMSQL function.\par
+\par
+-----------------------------------------------------------------------------------------------------------------------------\par
+\f1 gmsql_insertid()\f0\par
+-----------------------------------------------------------------------------------------------------------------------------\par
+\par
+Tells the MySQL database server to insert a unique ID with the record. \par
+\par
+Example:\par
+\par
+\f1 if !gmsql_insertid() show_message('Unique ID insertion failed.');\par
+\f0\par
+Returns 1 if successful or 0 if failed. \par
+\par
+Check your MySQL manual for more information on unique IDs.\par
+\par
+-----------------------------------------------------------------------------------------------------------------------------\par
+\f1 gmsql_kill(threadid)\f0\par
+-----------------------------------------------------------------------------------------------------------------------------\par
+\par
+Kills the specified thread. This enables you to force disconnection of a particular user from the MySQL database server.\par
+\par
+\f1 threadid:\f0\par
+\par
+Number of the thread to kill.\par
+\par
+Example:\par
+\par
+\f1 gmsql_kill(18537);\f0\par
+\par
+This kills thread number 18537.\par
+\par
+Note: the current username and logon credentials must provide enough privileges to kill another user's thread. This command should only be used in Game Maker applications that server administration purposes.\par
+\par
+-----------------------------------------------------------------------------------------------------------------------------\par
+\f1 gmsql_numfields()\f0\par
+-----------------------------------------------------------------------------------------------------------------------------\par
+\par
+Returns the number of fields in the result table of the last query, or 0 for a query without result or non-select queries.\par
+\par
+Example:\par
+\par
+\f1 show_message('The result table contains '+string(gmsql_numfields())+' fields.');\par
+\f0\par
+-----------------------------------------------------------------------------------------------------------------------------\par
+\f1 gmsql_numrows()\f0\par
+-----------------------------------------------------------------------------------------------------------------------------\par
+\par
+Returns the number of rows in the result table, or 0 for a query without result or non-select queries.\par
+\par
+Example:\par
+\par
+\f1 show_message('The result table contains '+string(gmsql_numrows())+' rows.');\par
+\f0\par
+Note: this command can only be used on result tables stored with \f1 gmsql_storeresult()\f0 .\par
+\par
+-----------------------------------------------------------------------------------------------------------------------------\par
+\f1 gmsql_ping()\f0\par
+-----------------------------------------------------------------------------------------------------------------------------\par
+\par
+Pings the MySQL database server and attempts a reconnection if necessary.\par
+\par
+Example:\par
+\par
+\f1 if !gmsql_ping() show_message('Pinging / reconnecting to server failed.');\par
+\f0\par
+Returns 1 if successful or 0 if failed.\par
+\par
+This command is particularly useful for ensuring the connection with the database after a long period without communication.\par
+\par
+-----------------------------------------------------------------------------------------------------------------------------\par
+\f1 gmsql_query(query)\f0\par
+-----------------------------------------------------------------------------------------------------------------------------\par
+\par
+Sends the specific query to the MySQL database server.\par
+\par
+\f1 query:\f0\par
+\par
+A string containing a genuine MySQL query.\par
+\par
+Example:\par
+\par
+\f1 if !gmsql_query('Select * from scores') show_message('Query failed.');\par
+\f0\par
+Returns 1 if successful or 0 if failed.\par
+\par
+Check \f1 gmsql_errorcode()\f0  and \f1 gmsql_errormessage()\f0  for more information on a failed query.\par
+\par
+-----------------------------------------------------------------------------------------------------------------------------\par
+\f1 gmsql_reload()\f0\par
+-----------------------------------------------------------------------------------------------------------------------------\par
+\par
+Makes the MySQL database server reload user names passwords. Useful if the credentials of particular users have changed.\par
+\par
+Example:\par
+\par
+\f1 if !gmsql_reload() show_message('Reloading credentials failed.');\par
+\f0\par
+Returns 1 if successful or 0 if failed.\par
+\par
+-----------------------------------------------------------------------------------------------------------------------------\par
+\f1 gmsql_savedata(filename,col)\f0\par
+-----------------------------------------------------------------------------------------------------------------------------\par
+\par
+Saves the data in the specified column to a local file.\par
+\par
+\f1 filename:\f0\par
+\par
+Filename with full or parcial path that will be used for saving the file.\par
+\par
+\f1 col:\f0\par
+\par
+The field column of the currently loaded row to save.\par
+\par
+Example:\par
+\par
+\f1 gmsql_savedata('picture.jpg',3);\f0\par
+\par
+This saves the contents of the fourth field of the currently loaded row as \f1 picture.jpg\f0  in the current working directory.\par
+\par
+Returns 1 if successful or 0 if failed.\par
+\par
+This command is typically used in combination with \f1 gmsql_useresult()\f0  and \f1 gmsql_fetchrow()\f0  but can also be used with \f1 gmsql_storeresult()\f0  and \f1 gmsql_dataseek()\f0 .\par
+\par
+Regular strings will be saved as strings or text files and binary data will be saved as binary files. If you intend to use the file afterwards, you should take care of saving the file with a correct file name extension.\par
+\par
+\i Important:\i0  any file in the selected path with the same name will be overwritten without warning!\par
+\par
+-----------------------------------------------------------------------------------------------------------------------------\par
+\f1 gmsql_savedataxy(filename,col,row)\f0\par
+-----------------------------------------------------------------------------------------------------------------------------\par
+\par
+Saves the data in the specified column and row to a local file.\par
+\par
+\f1 filename:\f0\par
+\par
+Filename with full or parcial path that will be used for saving the file.\par
+\par
+\f1 col:\f0\par
+\par
+The column of the field to save.\par
+\f1\par
+row:\f0\par
+\par
+The row of the field to save.\par
+\par
+Example:\par
+\par
+\f1 gmsql_savedataxy('readme.txt',2,3);\f0\par
+\par
+This saves the contents of the third field on the fourth row as \f1 readme.txt\f0  in the current working directory.\par
+\par
+Returns 1 if successful or 0 if failed.\par
+\par
+This command can only be used in combination with \f1 gmsql_storeresult()\f0 .\par
+\par
+Regular strings will be saved as strings or text files and binary data will be saved as binary files. If you intend to use the file afterwards, you should take care of saving the file with a correct file name extension.\par
+\par
+\i Important:\i0  any file in the selected path with the same name will be overwritten without warning!\par
+\par
+-----------------------------------------------------------------------------------------------------------------------------\par
+\f1 gmsql_selectdb(database)\f0\par
+-----------------------------------------------------------------------------------------------------------------------------\par
+\par
+Changes to the indicated database.\par
+\par
+\f1 database:\f0\par
+\par
+Database to change to.\par
+\par
+Example:\par
+\par
+\f1 if !gmsql_selectdb('asteroids') show_message('Could not switch to database');\f0\par
+\par
+Returns 1 if successful or 0 if failed.\par
+\par
+This function might fail if the current user does not have the credentials to log on to the indicated database.\par
+\par
+-----------------------------------------------------------------------------------------------------------------------------\par
+\f1 gmsql_shutdown()\f0\par
+-----------------------------------------------------------------------------------------------------------------------------\par
+\par
+Shuts down the MySQL database server.\par
+\par
+Example:\par
+\par
+\f1 if !gmsql_shutdown() show_message('Could not shut down database server.');\f0\par
+\par
+Returns 1 if successful or 0 if failed.\par
+\par
+This function might fail if the current user does not have the credentials of a database administrator.\par
+\par
+\i Note:\i0  this function should not be used in a typical Game Maker game. Only use this for your own server administration programs.\par
+\par
+-----------------------------------------------------------------------------------------------------------------------------\par
+\f1 gmsql_stat()\f0\par
+-----------------------------------------------------------------------------------------------------------------------------\par
+\par
+Returns status information of the currently connected MySQL database server.\par
+\par
+Example:\par
+\par
+\f1 show_message('Server status: '+gmsql_stat());\f0\par
+\par
+-----------------------------------------------------------------------------------------------------------------------------\par
+\f1 gmsql_storeresult()\f0\par
+-----------------------------------------------------------------------------------------------------------------------------\par
+\par
+Tells the MySQL database server to send the entire result table to the client.\par
+\par
+Example:\par
+\par
+\f1 if !gmsql_storeresult() show_message('Could not retrieve query result.');\f0\par
+\par
+Returns 1 if successful or 0 if failed.\par
+\par
+After executing this command you can use the commands \f1 gmsql_numrows()\f0 , \f1 gmsql_getvaluexy(col,row)\f0  and \f1 gmsql_savedataxy(col,row)\f0 .\par
+\par
+Retrieval time of the data depends on the size of the result table, the connection type and the location of the server. Be careful with retrieving query results of tables with binary data as they may be large and hang the client for a while during transfer.\par
+\par
+-----------------------------------------------------------------------------------------------------------------------------\par
+\f1 gmsql_threadid()\f0\par
+-----------------------------------------------------------------------------------------------------------------------------\par
+\par
+Returns the connection thread ID of the client.\par
+\par
+Example:\par
+\par
+\f1 show_message('Your current thread is '+string(gmsql_threadid()));\f0\par
+\par
+Can be used in combination with \f1 gmsql_kill(threadid)\f0  to kill the current connection if necessary.\par
+\par
+-----------------------------------------------------------------------------------------------------------------------------\par
+\f1 gmsql_useresult()\f0\par
+-----------------------------------------------------------------------------------------------------------------------------\par
+\par
+Tells the MySQL database server that the rows of the result table will be retrieved one by one. This is useful to minimise the size of data transport and to process the rows one by one.\par
+\par
+Example:\par
+\par
+\f1 if !gmsql_useresult() show_message('Unable to initiate retrieval of query result.');\f0\par
+\par
+Returns 1 if successful or 0 if failed.\par
+\par
+After executing this command you should use the commands \f1 gmsql_fetchrow()\f0  to retrieve subsequential rows of the result table. After fetching a row, you can use \f1 gmsql_getvalue(col)\f0  and \f1 gmsql_savedata(col)\f0  to get the values in the retrieved row.\par
+\par
+Retrieval time of the data depends on the size of the result table, the connection type and the location of the server. Be careful with retrieving query results of tables with binary data.\par
+\par
+\i Note:\i0  All rows must be fetched before continuing with the next query.\par
+\par
+\par
+\pard\keepn\b\fs24 Database Security Issues\par
+\pard\b0\fs20\par
+Managing database permissions can be a profession by itself. Sort your database authorisation out thoroughly before publicly releasing the game. Keep in mind that if anyone would know the TCP/IP address of your database and have a username and logon with sufficient authorisation, they can run queries on your database directly using tools provided by with a MySQL server.\par
+\par
+Below are a few hints on keeping your database secure from hacking.\par
+\par
+\pard{\pntext\f7\'B7\tab}{\*\pn\pnlvlblt\pnf7\pnindent360{\pntxtb\'B7}}\fi-360\li360\tx360 NEVER give a game or user access to the MySQL system tables.\par
+{\pntext\f7\'B7\tab}NEVER supply user names and passwords to players of your game  - let your game silently logon and run queries on the database.\par
+{\pntext\f7\'B7\tab}Do not publish the TCP/IP or URL location of the database.\par
+{\pntext\f7\'B7\tab}Restrict usernames and passwords used in games only to the tables in your database that are required by the game. \par
+{\pntext\f7\'B7\tab}Restrict the game\rquote s permissions on the tables to the actions that are required to make the game run properly.\par
+{\pntext\f7\'B7\tab}Avoid authorisation that allows a user to create and drop databases and tables or to modify the users\rquote  logon credentials.\par
+\pard\par
+Remember that if your GM application has a security leak the mistake is yours, not that of GMSQL.\par
+\par
+\pard\keepn\b\fs24 Efficiency Issues\b0\fs20\par
+\pard\par
+There are several issues you should consider if you wish to keep the client/server relation fast and efficient. You are advised to follow these at all times to avoid heavy burdens on connection speed, memory usage and application efficiency. Most of these suggestions are aimed at making the result query as small as possible.\par
+\pard\tx360\par
+\pard{\pntext\f7\'B7\tab}{\*\pn\pnlvlblt\pnf7\pnindent360{\pntxtb\'B7}}\fi-360\li360\tx360 In \f1 select\f0  queries, only specify the fields you need to return.\par
+{\pntext\f7\'B7\tab}Limit the amount of records returned by \f1 where\f0  parameters.\par
+{\pntext\f7\'B7\tab}Limit the amount of records using the \f1 limit by\f0  parameters.\par
+{\pntext\f7\'B7\tab}Queries that retrieve records with large data fields could better use the \i use results\i0  storage method. This avoids high memory use and allows you to update the game's screen in between.\par
+{\pntext\f7\'B7\tab}Make the MySQL server do the time-consuming work: build useful result tables and sort the data where needed. Note that MySQL queries also allow you to do calculations.\par
+{\pntext\f7\'B7\tab}When using queries in continuous events, such as the step and draw event, make sure they are not called continuously.\par
+{\pntext\f7\'B7\tab}Close the MySQL connection after use, but keep it open if you intend to use it more than once during your game.\par
+\pard\tx360\par
+\pard\keepn\b\fs24 Other Warnings And Suggestions\b0\fs20\par
+\pard\par
+Using an online MySQL database server requires the player of your game to be connected to the Internet. Should the player not be connected to the Internet at all, Windows may pop up a connection dialog box. This happens especially for modem dialup users. Make sure to run your game in a non-exclusive screen mode, otherwise the dialog box will not be displayed.\par
+\par
+Query commands of a MySQL server are not case sensitive, but database names, table names and field names are. Queries may fail simply because you used an incorrect case in the name. For your own convenience, it might be useful to use lowercase only in database, table and field names.\par
+\par
+Games change. Especially online games may be susceptible to change in the source - either through found bugs, security leaks or gameplay tweaking. Soon you may need to spread an update of a game. Since two versions of the same game may interact with the database differently or even clash in approach to the data, you are best off making sure that a valid version of the game is used on the database anywhere. To this end, create a small table in your database that contains game version information. Typically this needs only one row and one field - the version of the game that needs to be played with should be used with the current database. The game should check this value against it\rquote s own version number and depending on whether or not they match, allow or discontinue playing the game - thus forcing the user to get the latest version of your game.\par
+\par
+\b\fs24 Legal Issues\b0\fs20\par
+\par
+\pard\tx3240 The files \f1 GMSQL.DLL\f0 , \f1 GMSQL.GML\f0  and \f1 GMSQLCONSOLE.GMD\f0  can be used for free in your Game Maker products. The file \f1 GMSQL.DLL\f0  may not be reverse-engineered. The files in this package can not be sold or be spread as part a wares CD or offered for download  without my written permission. The file \f1 LIBMYSQL.DLL\f0  was written by MySQL AB. To my knowledge you are free to use this file for your purposes on conditions similar to mine. Check the site http://www.mysql.com for more information on using \f1 LIBMYSQL.DLL\f0 .\par
+\par
+Giving proper credit for using the DLLs is always appreciated.\par
+\line\b\fs24 Acknowledgements\b0\fs20\par
+\pard\par
+I would like to thank the following people or companies for making this release possible:\par
+\pard\tx360\par
+\pard{\pntext\f7\'B7\tab}{\*\pn\pnlvlblt\pnf7\pnindent360{\pntxtb\'B7}}\fi-360\li360\tx360\i Mark Overmars\i0  for the wonderful Game Maker\par
+\i{\pntext\f7\'B7\tab}MySQL AB\i0  for the MySQL server and MySQL library\par
+\i{\pntext\f7\'B7\tab}Borland\i0  for Delphi 6, Personal Edition\par
+\i{\pntext\f7\'B7\tab}Matthias Fichtner\i0  for the Delphi bridge to the MySQL API\par
+\i{\pntext\f7\'B7\tab}Alasdair Forsythe\i0  for providing me with an online test database\par
+\pard\tx360\par
+\pard\tx3240\b\fs24 Contacting Me\b0\fs20\par
+\pard\tx360\par
+I am very interested to hear in the projects you are undertaking with GMSQL. Feel free to mail me at forge@dds.nl with your comments, suggestions, bug reports, found omissions in the manual and feedback. I may also provide help in using GMSQL, but I will not help you with questions regarding the MySQL database server or SQL queries. Check for a topic on GMSQL on the forums at http://forums.gamemaker.com for more information.\par
+\par
+Have fun,\par
+\par
+M. Rijks, March 22th, 2004.\f6\fs24\par
+\f0\fs20\par
+}
+ 
