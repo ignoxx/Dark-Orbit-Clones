@@ -1,7 +1,8 @@
 # Dark-Orbit-Clones
 This repository contains my relevant projects which I've created during my exploration of programming, back when I was 15 years old.
 
-I've experimented a lot with the source files and learned a lot during the time. The most relevant things I've learned are:
+I've experimented a lot with the source files and learned a lot during the time. 
+# The most relevant things I've learned
 * Basic programming knowledge
 * Advanced understanding for the Game Maker engine and everything related to it
 * Networking for real-time multiplayer games including client side prediction
