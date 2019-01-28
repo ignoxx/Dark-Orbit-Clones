@@ -3,7 +3,7 @@ This repository contains my relevant projects which I've created during my explo
 
 I've experimented a lot with the source files and learned a lot during the time. 
 # The most relevant things I've learned
-* Basic programming knowledge
+* Basic programming knowledge and advanced knowledge for the built-in scripting language GML
 * Advanced understanding for the Game Maker engine and everything related to it
 * Networking for real-time multiplayer games including client side prediction
 * Databases (MySQL). The game has initialy used .ini files to store data but I've replaced it with MySQL because it has suited my needs much more and I was able to create a Website which was connected to the DB.
@@ -11,6 +11,7 @@ I've experimented a lot with the source files and learned a lot during the time.
 * How to interact with your players and the passion for managing and developing a game
 * Also the interest for UI/UX design.
 * Working in a team
+* .. and more
 
 
 # About the different clones
