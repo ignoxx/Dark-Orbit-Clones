@@ -1,4 +1,4 @@
-# League of Pilots - [[Preview]](https://youtu.be/UAbt4RkJiYs)
+# Orbit Legacy Reloaded - [[Preview]](https://youtu.be/WFWF5OmKG2c)
 # Description
 This project is abandoned for unknown reasons.
 
@@ -17,4 +17,4 @@ First time that I'd developed a game from scratch!
 # Images
 
 ### Current Client
-![Image of Client](https://github.com/ignaskavaliauskas/Dark-Orbit-Clones/blob/master/League%20of%20Pilots/Images/client.jpg)
+![Image of Client](https://github.com/ignaskavaliauskas/Dark-Orbit-Clones/blob/master/Orbit%20Legacy%20Reloaded/Images/client.jpg)
