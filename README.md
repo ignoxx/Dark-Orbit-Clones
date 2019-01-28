@@ -3,6 +3,8 @@ This repository contains my relevant projects which I've created during my explo
 
 I've experimented a lot with the source files and learned a lot during the time. Everything provided here is outdated like the game engine, the used librarys and the code, since it was developed in my first phases of learning programming. That said, I'm not recommending using it as a base for your project but it's nice to take a look how things were made.
 
+The main reason why this repository exists is to have a reference for my work! :)
+
 # The most relevant things I've learned
 * Basic programming knowledge and advanced knowledge for the built-in scripting language GML
 * Advanced understanding for the Game Maker engine and everything related to it
