@@ -11,7 +11,8 @@ First time that I'd developed a game from scratch!
 
 # How to get started
 * Open the .gmk files using Game Maker and compile it! It's probably ready to be used.
-
+* Import and setup the Database (MySQL)
+* Install XAMPP for the MySQL services
 
 # Images
 
