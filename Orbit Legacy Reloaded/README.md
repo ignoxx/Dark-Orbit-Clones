@@ -1,6 +1,6 @@
 # Orbit Legacy Reloaded - [[Preview]](https://youtu.be/WFWF5OmKG2c)
 # Description
-This project is abandoned for unknown reasons.
+This project is abandoned because at the end it was a big mix of code not following any standarts and it wasn't fun to work on it anymore!
 
 It may be interesting to use it for educational purpose for checking out the server structure and everything else behind the scences!
 
