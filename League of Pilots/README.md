@@ -1,10 +1,10 @@
-# League of Pilots - [[Preview]](https://youtu.be/UAbt4RkJiYs)
+# League of Pilots
 # Description
 This project is abandoned for unknown reasons.
 
 It may be interesting to use it for educational purpose for checking out the server structure and everything else behind the scences!
 
-First time that I'd developed a game from scratch!
+First time that I'd developed a game from scratch! [[Preview]](https://youtu.be/UAbt4RkJiYs)
 
 # Requirments
 * Game Maker 8.0 Pro / 8.1 Pro
